@@ -4,10 +4,12 @@ import {BrowserRouter} from "react-router-dom"
 
 function App() {
 
+const isAuthorized = true;
+
   return (
     <>
         <BrowserRouter>
-          <AppRoutes></AppRoutes>
+          <AppRoutes isAuthorized={isAuthorized} />
         </BrowserRouter>
     </>
   )

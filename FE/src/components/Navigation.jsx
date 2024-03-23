@@ -9,7 +9,7 @@ function Navigation() {
                 <img src="/icons/Logo.png" alt="home" />
             </Link>
             <div className="nav-links">
-                <Link to="/messages">
+                <Link to="/profile/messages">
                 <GoCommentDiscussion />
                     <span>  Messages</span>
                 </Link>

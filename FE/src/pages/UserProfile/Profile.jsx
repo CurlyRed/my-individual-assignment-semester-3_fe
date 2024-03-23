@@ -1,12 +1,13 @@
-import React from 'react';
+import { Outlet } from "../../components/ProfileNavigation.jsx"; 
 
 function Profile() {
     return (
         <div>
-            <h1>My Profile</h1>
-            <p>This is the My Profile page.</p>
+            <ProfileNavigation />
+            <Outlet />
         </div>
     );
 }
 
 export default Profile;
+

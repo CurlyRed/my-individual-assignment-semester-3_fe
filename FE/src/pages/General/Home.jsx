@@ -7,7 +7,7 @@ function Home() {
     <div>
       <div className="search-container">
         <GoSearch className='search-icon'/>
-        <input type="text" className="search-input" placeholder="Search..." />
+        <input type="text" className="search-input" placeholder="What are you looking for..?" />
         <LocationDropdown />
         <button type="button" className="search-button">Search</button>
       </div>

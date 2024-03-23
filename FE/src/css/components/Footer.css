@@ -1,7 +1,8 @@
 .footer {
-    background-color: #ffa500;
-    color: #ffffff;
-    padding: 20px;
+  z-index: 1001;
+  position: relative;
+  background: #F2F4F5;
+  border-top: 1px solid #7F9799;
   }
   
   .footer-container {
