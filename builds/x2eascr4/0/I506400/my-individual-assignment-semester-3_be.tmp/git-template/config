@@ -1,8 +1,0 @@
-[init]
-	defaultBranch = none
-[fetch]
-	recurseSubmodules = false
-[transfer]
-	bundleURI = true
-[http "https://git.fhict.nl"]
-	sslCAInfo = /Users/sergeysokyrko/desktop/semester 3/Individual Project/Individual Assignment/FE/my-individual-assignment-semester-3_fe/builds/x2eascr4/0/I506400/my-individual-assignment-semester-3_be.tmp/CI_SERVER_TLS_CA_FILE
