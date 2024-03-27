@@ -1,4 +1,5 @@
-import { Outlet } from "../../components/ProfileNavigation.jsx"; 
+import { Outlet } from "react-router-dom"; 
+import ProfileNavigation from "../../components/ProfileNavigation.jsx";
 
 function Profile() {
     return (
