@@ -1,4 +1,4 @@
-import "/Users/sergeysokyrko/Desktop/semester 3/Individual Project/Individual Assignment/FE/my-individual-assignment-semester-3_fe/FE/src/css/pages/Wishlist.css";
+import "../../css/pages/Wishlist.css";
 
 function Wishlist() {
     return (

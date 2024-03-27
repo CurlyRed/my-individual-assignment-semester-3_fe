@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '/Users/sergeysokyrko/Desktop/semester 3/Individual Project/Individual Assignment/FE/my-individual-assignment-semester-3_fe/FE/src/css/pages/Login.css';
+import '../../css/pages/Login.css';
 import {FaGoogle} from 'react-icons/fa';
 
 function Login(){

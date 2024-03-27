@@ -1,6 +1,6 @@
-import '/Users/sergeysokyrko/Desktop/semester 3/Individual Project/Individual Assignment/FE/my-individual-assignment-semester-3_fe/FE/src/css/pages/Home.css'
+import '../../css/pages/Home.css'
 import { GoSearch } from 'react-icons/go';
-import LocationDropdown from '/Users/sergeysokyrko/Desktop/semester 3/Individual Project/Individual Assignment/FE/my-individual-assignment-semester-3_fe/FE/src/components/LocationDropdown.jsx'
+import LocationDropdown from '../../components/LocationDropdown.jsx'
 
 function Home() {
   return (
