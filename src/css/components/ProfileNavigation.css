@@ -84,6 +84,14 @@
     max-width: 100vw;
 }
 
+.button-selected{
+    height: 56px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    color: black
+}
+
 .li-selected{
     position: relative;
     border-bottom: 2px solid rgb(0, 47, 52);

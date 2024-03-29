@@ -25,14 +25,31 @@ function ProfileNavigation() {
           </div>
         </div>
           <ul className="ul-style">
-            <li className={path === undefined ? 'li-selected' : 'li-notselected'}><Link to="/profile">Products</Link></li>
-            <li className={path === 'messages' ? 'li-selected' : 'li-notselected'}><Link to="/profile/messages">Messages</Link></li>
-            <li className={path === 'payments' ? 'li-selected' : 'li-notselected'}><Link to="/profile/payments">Payments</Link></li>
-            <li className={path === 'delivery' ? 'li-selected' : 'li-notselected'}>
-              <FaTruck />
-              <Link to="/profile/delivery">Delivery</Link>
+            <li className={path === undefined ? 'li-selected' : 'li-notselected'}>
+              <Link to="/profile">
+                <span className="button-selected">Products</span>
+                </Link>
               </li>
-            <li className={path === 'settings' ? 'li-selected' : 'li-notselected'}><Link to="/profile/settings">Settings</Link></li>
+            <li className={path === 'messages' ? 'li-selected' : 'li-notselected'}>
+              <Link to="/profile/messages">
+                <span className="button-selected">Messages</span>
+              </Link>
+            </li>
+            <li className={path === 'payments' ? 'li-selected' : 'li-notselected'}>
+              <Link to="/profile/payments">
+                <span className="button-selected">Payments</span>
+              </Link>
+            </li>
+            <li className={path === 'delivery' ? 'li-selected' : 'li-notselected'}>
+              <Link to="/profile/delivery">
+                <span className="button-selected"> <FaTruck />  Delivery</span>
+              </Link>
+            </li>
+            <li className={path === 'settings' ? 'li-selected' : 'li-notselected'}>
+              <Link to="/profile/settings">
+                <span className="button-selected">Settings</span>
+              </Link>
+            </li>
           </ul>
       </div>
     </div>

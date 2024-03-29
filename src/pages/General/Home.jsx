@@ -1,6 +1,7 @@
 import '../../css/pages/Home.css'
 import { GoSearch } from 'react-icons/go';
 import LocationDropdown from '../../components/LocationDropdown.jsx'
+import CategoryList from '../../components/CategoryList.jsx';
 
 function Home() {
   return (
@@ -13,13 +14,8 @@ function Home() {
       </div>
 
       <div className="categories-container">
-        <h2>All Categories</h2>
-        <div className="category">
-          <h3 className="category-title">Category 1</h3>
-        </div>
-        <div className="category">
-          <h3 className="category-title">Category 2</h3>
-        </div>
+        <h2 className='home-categories-title'>All Categories</h2>
+        <CategoryList />
       </div>
     </div>
   );

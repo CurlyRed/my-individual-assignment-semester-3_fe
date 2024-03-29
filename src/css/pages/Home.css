@@ -36,24 +36,26 @@
   }
   
   /* Categories */
+.home-categories-title {
+  font-size: 32px;
+  line-height: 34px;
+  font-weight: 700;
+  text-align: center;
+  color: #002F34;
+  margin: 0;
+  margin-bottom: 56px;
+}
+
   .categories-container {
-    margin-top: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+    position: relative;
   }
   
-  .category {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .category-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .category-image {
-    max-width: 100%;
-    height: auto;
-  }
   

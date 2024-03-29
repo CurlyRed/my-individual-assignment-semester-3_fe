@@ -1,9 +1,24 @@
 stages:
   - build
+  - deploy
 
 build:
   stage: build
   script: 
     - npm install
     - npm run build
+
+deploy:
+  stage: deploy
+  script:
+    - |
+      if [[ "$CI_COMMIT_REF_NAME" != "$CI_DEFAULT_BRANCH" ]]; then
+        echo "Skipping Docker image build as the pipeline was not triggered from the main branch."
+      elif [[ "$CI_JOB_STATUS" != "success" ]]; then
+        echo "Skipping Docker image build as the build stage failed."
+      else
+        docker build -t ias3_fe .
+        docker run -d -p 8000:3000 ias3_container_fe ias3_fe
+      fi
+
 
