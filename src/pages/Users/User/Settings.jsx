@@ -1,5 +1,5 @@
-import CollapsibleBlock from '../../components/CollapsibleBlock.jsx';
-import '../../css/pages/Settings.css'
+import CollapsibleBlock from '../../../components/CollapsibleBlock.jsx';
+import '../../../css/components/CollapsibleBlock.css';
 
 function Settings() {
   return (

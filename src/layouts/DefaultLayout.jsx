@@ -4,10 +4,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer'; 
 import '../css/layouts/DefaultLayout.css';
 
-function DefaultLayout() {
+function DefaultLayout({ userRole }) {
   return (
     <div className="default-layout-container">
-      <Header />
+      <Header userRole={userRole} /> 
       <div className="default-layout-content">
         <Outlet />
       </div>
@@ -17,4 +17,5 @@ function DefaultLayout() {
 }
 
 export default DefaultLayout;
+
 

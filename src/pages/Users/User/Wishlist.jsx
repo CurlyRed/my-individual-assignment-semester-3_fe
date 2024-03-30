@@ -1,4 +1,4 @@
-import "../../css/pages/Wishlist.css";
+import "../../../css/pages/Wishlist.css";
 
 function Wishlist() {
     return (

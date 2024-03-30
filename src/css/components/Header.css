@@ -1,6 +1,5 @@
 .header {
     background-color: #ffa500;
-    color: #ffffff;
     padding: 10px 20px;
     top: 0;
     left: 0;
@@ -14,5 +13,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #ffa500 !important;
   }
   

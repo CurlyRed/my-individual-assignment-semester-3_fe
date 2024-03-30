@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import '../css/components/NavigationBar.css';
+import '../../css/components/NavigationBar.css';
 import { GoHeart, GoPerson, GoCommentDiscussion } from 'react-icons/go'
 
-function Navigation() {
+function UserNavigation() {
     return (
         <nav>
             <Link className="nav-logo" to="/">
@@ -26,4 +26,4 @@ function Navigation() {
     )
 }
 
-export default Navigation;
+export default UserNavigation;
