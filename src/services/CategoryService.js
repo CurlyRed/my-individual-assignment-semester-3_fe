@@ -31,15 +31,6 @@ const CategoryService = {
     }
   },
 
-  updateCategory: async (categoryId, categoryData) => {
-    try {
-      const response = await axios.put(`${API_BASE_URL}/categories/${categoryId}`, categoryData);
-      return response.data;
-    } catch (error) {
-      throw new Error('Error updating category:', error);
-    }
-  },
-
   deleteCategory: async (categoryId) => {
     try {
       const response = await axios.delete(`${API_BASE_URL}/categories/${categoryId}`);

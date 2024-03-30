@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import '../css/components/CategoryList.css';
+
 import CategoryService from '../services/CategoryService.js';
-import '../css/components/CategoryList.css'; 
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -20,13 +21,13 @@ const CategoryList = () => {
 
   return (
     <div className="category-list">
-      {categories.map(category => (
-        <div className="category-card" key={category.id}>
-          <div className="image-placeholder" /> {/* Added image placeholder */}
-          <span>{category.name}</span>
+    {categories.map(category => (
+        <div className="category-card">
+            <div className="category-image"></div>
+            <p className="category-name">{category.name}</p>
         </div>
-      ))}
-    </div>
+    ))}
+</div>
   );
 };
 
