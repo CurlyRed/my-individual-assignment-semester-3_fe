@@ -12,10 +12,10 @@ const supportRole = 'support';
   return (
     <>
         <BrowserRouter>
-          <AppRoutes isAuthorized={isAuthorized} userRole={adminRole} />
+          <AppRoutes isAuthorized={isAuthorized} userRole={userRole} />
         </BrowserRouter>
     </>
   )
 }
 
-export default App
+export default App;
