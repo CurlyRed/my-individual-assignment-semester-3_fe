@@ -20,7 +20,9 @@ function UserNavigation() {
                     <GoPerson /> 
                     <span>  My Profile</span>
                 </Link>             
-                <Link to="/postproduct">Post Product</Link>
+                <Link to="/postproduct">
+                    <span className='post-product-button'>Post Product</span>
+                </Link>
             </div>
         </nav>
     )

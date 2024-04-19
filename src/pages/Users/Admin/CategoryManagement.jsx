@@ -136,16 +136,6 @@ function CategoryManagement() {
                                 onChange={(e) => handleAttributeChange(index, e)}
                                 required
                             />
-                            <select
-                                value={attribute.type}
-                                name="type"
-                                onChange={(e) => handleAttributeChange(index, e)}
-                                required
-                            >
-                                <option value="">Select Type</option>
-                                <option value="String">Text</option>
-                                <option value="int">Number</option>
-                            </select>
                             <button className='button-remove' type="button" onClick={() => removeAttributeField(index)}>X</button>
                         </div>
                     ))}

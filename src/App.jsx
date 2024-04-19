@@ -12,7 +12,7 @@ const supportRole = 'support';
   return (
     <>
         <BrowserRouter>
-          <AppRoutes isAuthorized={isAuthorized} userRole={userRole} />
+          <AppRoutes isAuthorized={isAuthorized} userRole={adminRole} />
         </BrowserRouter>
     </>
   )

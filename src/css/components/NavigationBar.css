@@ -25,19 +25,18 @@ nav {
     color: #808080;
 }
 
-.nav-postProduct {
-    margin-left: auto; 
+.post-product-button:hover {
+    background-color: #ffa500;
+    color: #ffffff;
+    border-radius: 5px;
+    border-color: white
 }
 
-.nav-postProduct a {
+.post-product-button{
     padding: 10px 20px;
     background-color: #ffffff;
     color: #ffa500;
     border: 2px solid #ffa500;
     border-radius: 5px;
-}
-
-.nav-postProduct a:hover {
-    background-color: #ffa500;
-    color: #ffffff;
+    margin-left: auto; 
 }
