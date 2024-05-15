@@ -1,8 +1,17 @@
 import { Link } from 'react-router-dom';
 import '../../css/components/NavigationBar.css';
 import { GoHeart, GoPerson, GoCommentDiscussion } from 'react-icons/go'
+import AuthenticationService from '../../services/AuthenticationService';
 
 function UserNavigation() {
+    const token = localStorage.getItem('token');
+    const isAuthenticated = !!token;
+
+    const handleLogout = () => {
+        AuthenticationService.logout();
+        window.location.reload();
+    }
+    
     return (
         <nav>
             <Link className="nav-logo" to="/">
@@ -23,6 +32,11 @@ function UserNavigation() {
                 <Link to="/postproduct">
                     <span className='post-product-button'>Post Product</span>
                 </Link>
+                {isAuthenticated && (
+                    <Link to='/'>
+                        <span onClick={handleLogout}>Logout</span>
+                    </Link>
+                )}
             </div>
         </nav>
     )

@@ -8,7 +8,13 @@ const UserService = {
       const response = await axios.post(`${API_BASE_URL}/users`, userData);
       return response.data;
     } catch (error) {
-      throw new Error('Error creating user:', error);
+      if (error.response) {
+        throw error;
+      } else if (error.request) {
+          throw new Error('Server is not accessible');
+      } else {
+          throw new Error('Request error');
+      }
     }
   },
 
@@ -36,6 +42,15 @@ const UserService = {
       return response.data;
     } catch (error) {
       throw new Error('Error deleting user:', error);
+    }
+  },
+
+  getUserByProductId: async (productId) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users/product/${productId}`);
+      return response.data;
+    } catch (error){
+      throw new Error('Error fetching user:', error);
     }
   }
 };

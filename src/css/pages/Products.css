@@ -1,0 +1,125 @@
+.page-content {
+    background-color: rgb(242, 244, 245);
+    padding-bottom: 24px;
+}
+
+.page-content-2{
+    width: 1238px;
+    margin: 0px auto;
+}
+
+.filters-box {
+    padding-top: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgb(216, 223, 224);
+}
+
+.filters-box-buttons {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.add-filter-container {
+    position: relative;
+    z-index: 1000;
+}
+
+.add-filter-button {
+    -webkit-box-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin: 0px 8px 0px 0px;
+    min-height: 48px;
+    position: relative;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    background-color: transparent;
+    border: 2px solid #ffa500;
+    border-radius: 4px;
+    color: rgb(0, 47, 52);
+    padding: 12px 46px;
+    max-height: 48px;
+    white-space: nowrap;
+}
+
+.add-filter-button:hover {
+    box-shadow: inset 0 0 0 4px #ffa500;
+    outline: none;
+}    
+
+.search-by-container {
+    margin-right: 8px;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+}
+
+.search-by-inside {
+    background-color: transparent;
+    position: relative;
+}
+
+.search-input {
+    font-size: 16px;
+    color: rgb(0, 47, 52);
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-image: initial;
+    border-bottom: 2px solid rgb(255, 255, 255);
+    border-radius: 4px;
+    line-height: 20px;
+    outline: 0px;
+    padding: 13px 48px;
+    width: calc(100% - 48px);
+    background: rgb(255, 255, 255);
+    padding-right: 0px;
+}
+
+.select-category-container {
+    width: 340px;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.select-category-inside {
+    position: relative;
+    width: 100%;
+}
+
+.select-style {
+    width: 100%;
+    height: 48px;
+}
+
+.space-line {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+.products-content {
+    padding: 80px 0px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.products-grid {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(2, calc(50% - 4px));
+    width: 100%;
+}

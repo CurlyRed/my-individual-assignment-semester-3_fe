@@ -12,7 +12,6 @@ function Home() {
         <LocationDropdown />
         <button type="button" className="search-button">Search</button>
       </div>
-
       <div className="categories-container">
         <h2 className='home-categories-title'>All Categories</h2>
         <CategoryList />

@@ -8,10 +8,10 @@ function Header({ userRole }) {
   let NavigationComponent;
 
   switch (userRole) {
-    case 'admin':
+    case 'ADMIN':
       NavigationComponent = AdminNavigation;
       break;
-    case 'support':
+    case 'SUPPORT':
       NavigationComponent = SupportNavigation;
       break;
     default:

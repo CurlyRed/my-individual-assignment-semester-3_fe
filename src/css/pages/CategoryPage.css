@@ -1,0 +1,33 @@
+.products-block {
+    display: grid;
+    width: 100%;
+    background-color: inherit;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: 16px;
+    -webkit-align-items: stretch;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+.products-grid-container {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 24px;
+    grid-column: span 12;
+    position: relative;
+    width: 100%;
+}
+
+.margin-block {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    right: 100%;
+    margin-right: 20px;
+}
+
+.products-grid-search {
+    grid-template-rows: minmax(0px, 3fr);
+    grid-template-columns: repeat(1, calc(50% - 4px)) ;
+}

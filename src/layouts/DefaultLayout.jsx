@@ -4,10 +4,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer'; 
 import '../css/layouts/DefaultLayout.css';
 
-function DefaultLayout({ userRole }) {
+function DefaultLayout({ userRole, isAuthorized }) {
   return (
     <div className="default-layout-container">
-      <Header userRole={userRole} /> 
+      <Header userRole={userRole} isAuthorized={isAuthorized}/> 
       <div className="default-layout-content">
         <Outlet />
       </div>

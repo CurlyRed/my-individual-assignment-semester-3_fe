@@ -63,11 +63,17 @@
     font-size: 14px;
     line-height: 20px;
     background-color: transparent;
-    border: 2px solid rgb(0, 47, 52);
+    box-shadow: 0 0 0 2px #ffa500;
+    border-color: #ffa500;
     border-radius: 4px;
-    color: rgb(0, 47, 52);
+    color: #ffa500;
     padding: 6px 22px;
     white-space: nowrap;
+}
+
+.topup-button:hover {
+    box-shadow: 0 0 0 5px #ffa500;
+    border-color: #ffa500;
 }
 
 /*Navigtaion*/

@@ -1,7 +1,12 @@
 import {Link} from 'react-router-dom';
 import '../../css/components/NavigationBar.css';
+import AuthenticationService from '../../services/AuthenticationService';
 
 function SupportNavigation(){
+    const handleLogout = () => {
+        AuthenticationService.logout();
+        window.location.reload();
+    }
     return(
         <nav>
             <Link className="nav-logo" to="/">
@@ -10,6 +15,9 @@ function SupportNavigation(){
             <div className='nav-links'>
                 <Link to = '/supportDashboard'>
                     <span>Dashboard</span>
+                </Link>
+                <Link to ='/'>
+                    <span onClick={handleLogout}>Logout</span>
                 </Link>
             </div>
         </nav>

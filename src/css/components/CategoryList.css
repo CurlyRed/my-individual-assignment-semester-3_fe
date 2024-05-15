@@ -40,3 +40,12 @@
     margin-top: 10px;
     text-align: center;
   }
+
+  .card-link {
+    color: black;
+    text-decoration: inherit;
+  }
+
+  .card-link:hover {
+    color:#000000;
+  }

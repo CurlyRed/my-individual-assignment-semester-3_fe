@@ -23,7 +23,7 @@ function ProfileNavigation({ userRole }) {
             }
           </h2>
           </div>
-          {userRole === 'user' && (
+          {userRole === 'USER' && (
           <div className="info-buttons">
             <div className="info-buttons-2">
               <div className="info-buttons-3">
@@ -37,7 +37,7 @@ function ProfileNavigation({ userRole }) {
           )}
         </div>
           <ul className="ul-style">
-            { userRole === 'admin' && (
+            { userRole === 'ADMIN' && (
               <>
                 <li className={path === undefined ? 'li-selected' : 'li-notselected'}>
                   <Link to="/admindashboard">
@@ -51,7 +51,7 @@ function ProfileNavigation({ userRole }) {
                 </li>
               </>
             )}
-            { userRole === 'support' && (
+            { userRole === 'SUPPORT' && (
               <>  
                 <li className={path === undefined ? 'li-selected' : 'li-notselected'}>
                   <Link to="/supportdashboard">
@@ -75,7 +75,7 @@ function ProfileNavigation({ userRole }) {
                 </li>
               </>
             )}
-            {( userRole === 'user' || !userRole ) && (
+            {( userRole === 'USER' || !userRole ) && (
             <>
               <li className={path === undefined ? 'li-selected' : 'li-notselected'}>
                 <Link to="/profile">

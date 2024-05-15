@@ -1,12 +1,28 @@
 import '../css/pages/Home.css'
+import LocationService from '../services/LocationService.js';
+import { useEffect, useState } from 'react';
 
 function LocationDropdown() {
-  const locations = ['Location 1', 'Location 2', 'Location 3'];
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    async function fetchLocations() {
+      try {
+        const locationsData = await LocationService.getAllLocations();
+        setLocations(locationsData);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
+    }
+
+    fetchLocations();
+  }, []);
 
   return (
-    <select className="location-dropdown">
+    <select>
+      <option value=''>Select a district</option>
       {locations.map((location, index) => (
-        <option key={index} value={location}>{location}</option>
+        <option key={index} value={location}>{location.name}</option>
       ))}
     </select>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/components/CategoryList.css';
 
 import CategoryService from '../services/CategoryService.js';
@@ -21,13 +22,23 @@ const CategoryList = () => {
 
   return (
     <div className="category-list">
-    {categories.map(category => (
-        <div className="category-card">
-            <div className="category-image"></div>
-            <p className="category-name">{category.name}</p>
-        </div>
-    ))}
-</div>
+      {categories.map(category => (
+          <Link 
+            key = {category.id} 
+            to={`/${category.name.toLowerCase()}`}
+            state = {{
+              categoryName: category.name,
+              categoryId: category.id
+            }}
+            className="cardlink"
+          >
+            <div className="category-card">
+                <div className="category-image"></div>
+                <p className="category-name">{category.name}</p>
+            </div>
+          </Link>
+      ))}
+  </div>
   );
 };
 
