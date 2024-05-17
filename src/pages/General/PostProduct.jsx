@@ -149,7 +149,6 @@ function PostProduct() {
             try{
                 const districtsData = await LocationService.getAllLocations();
                 setDistricts(districtsData);
-                console.log(districtsData)
             } catch (error) {
                 console.error('Error fetching locations:', error);
             }
@@ -161,7 +160,6 @@ function PostProduct() {
     useEffect(() => {
         if (selectedDistrict) {
             setCities(selectedDistrict.cities)
-            console.log(cities)
         }
     }, [selectedDistrict])
 
@@ -247,6 +245,7 @@ function PostProduct() {
                 <div className='content-block' key={attribute.id}>
                     <div className='content'>
                         <h4>{attribute.name}</h4>
+                        <h3>Note, you will not be able to edit this value in the future!</h3>
                         <label>Enter the {attribute.name}*</label>
                         <input
                             type='text'

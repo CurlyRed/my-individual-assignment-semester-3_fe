@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../css/components/NavigationBar.css';
 import { GoHeart, GoPerson, GoCommentDiscussion } from 'react-icons/go'
 import AuthenticationService from '../../services/AuthenticationService';
+import TokenManager from '../../services/TokenManager';
 
 function UserNavigation() {
-    const token = localStorage.getItem('token');
-    const isAuthenticated = !!token;
+
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         AuthenticationService.logout();
+        navigate('/');
         window.location.reload();
     }
     
@@ -32,7 +35,7 @@ function UserNavigation() {
                 <Link to="/postproduct">
                     <span className='post-product-button'>Post Product</span>
                 </Link>
-                {isAuthenticated && (
+                {TokenManager.isAuthenticated() && (
                     <Link to='/'>
                         <span onClick={handleLogout}>Logout</span>
                     </Link>

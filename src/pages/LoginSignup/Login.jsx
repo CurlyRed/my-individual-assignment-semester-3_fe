@@ -4,6 +4,7 @@ import {FaGoogle} from 'react-icons/fa';
 import AuthenticationService from '../../services/AuthenticationService';
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router-dom';
+import TokenManager from '../../services/TokenManager';
 
 function Login() {
     const [isLogin, setIsLogin] = useState(true);
@@ -24,7 +25,7 @@ function Login() {
             if (isLogin) {
                 // Login
                 const response = await AuthenticationService.login(loginData);
-                localStorage.setItem('token', response.accessToken)
+                TokenManager.setAccessToken(response);
                 console.log('Login successful:', new Date().toString());
 
                 navigate('/');
@@ -36,6 +37,7 @@ function Login() {
                 console.log('Signup successful:', new Date().toString());
             }
         } catch (error) {
+            console.error(error)
             if (error.response) {
                 if (error.response.status === 400) {
                     setError(error.response.data);

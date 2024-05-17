@@ -25,7 +25,7 @@ const CategoryList = () => {
       {categories.map(category => (
           <Link 
             key = {category.id} 
-            to={`/${category.name.toLowerCase()}`}
+            to={`/${category.name.toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')}`}
             state = {{
               categoryName: category.name,
               categoryId: category.id

@@ -9,7 +9,6 @@ function ProductCard({ product }) {
             try {
                 const locationData = await LocationService.getLocationForProduct(product.id);
                 setLocation(locationData);
-                console.log(locationData);
             } catch (error) {
                 console.error('Error fetching location for a product', error);
             }

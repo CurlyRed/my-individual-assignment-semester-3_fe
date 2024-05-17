@@ -1,4 +1,3 @@
-/*Category_Info_Modal*/
 .modal-content {
     position: absolute;
     top: 50%;
@@ -15,7 +14,46 @@
     background-color: rgb(242, 242, 242);
     border: 2px solid #ffa500;
     border-radius: 10%;
+    overflow-y: auto; 
+    max-height: calc(100% - 100px);
   }
+
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modal-body {
+    max-height: calc(100% - 100px);
+}
+
+.modal-footer {
+    display: flex;
+    flex-direction: column; 
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.modal-footer button {
+    flex-grow: 0; /* Prevent the button from growing */
+}
+
+.modal-footer label{
+    margin: 0px;
+    padding: 0px 0px 8px;
+    display: flex;
+    width: 100%;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgb(0, 47, 52);
+}
   
 .category-image-placeholder {
     width: 200px; 

@@ -7,14 +7,15 @@ const AuthenticationService = {
     login: async (userData) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/users/auth/login`, userData);
-            return response.data;
+            console.log(response)
+            return response.data.accessToken;
         } catch (error) {
             if (error.response) {
               throw error;
             } else if (error.request) {
                 throw new Error('Server is not accessible');
             } else {
-                throw new Error('Request error');
+                throw new Error('Request error' + error.message);
             }
         }
     },

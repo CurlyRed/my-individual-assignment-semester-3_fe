@@ -2,8 +2,8 @@ import axios from 'axios';
 import TokenManager from '../services/TokenManager.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-const token = TokenManager.getToken();
 const userId = TokenManager.getUserId();
+const token = TokenManager.getAccessToken();
 
 const ProductService = {
 
@@ -33,12 +33,33 @@ const ProductService = {
     }
   },
 
-  updateProduct: async (productId, productData) => {
+  updateProduct: async (productId, request) => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/products/${productId}`, productData);
+      const response = await axios.put(
+        `${API_BASE_URL}/products/${productId}`,
+        request, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       return response.data;
     } catch (error) {
-      throw new Error('Error updating product:', error);
+      console.error(error + " " + productId + " " + request)
+      if (error.response){
+        if (error.response.status === 401) {
+          throw new Error("Unauthorized access")
+        } else if (error.response.status === 403) {
+          throw new Error("Forbidden access")
+        } else {
+          throw new Error("Internal server error")
+        }
+      } else if (error.request) {
+          throw new Error("Server is not accessible or response was not recieved")
+      } else {
+        throw new Error("Request error:" + error.message)
+      }
     }
   },
 

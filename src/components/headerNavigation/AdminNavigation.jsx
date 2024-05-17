@@ -1,10 +1,15 @@
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import '../../css/components/NavigationBar.css';
 import AuthenticationService from '../../services/AuthenticationService.js';
 
 function AdminNavigation(){
+
+    const navigate = useNavigate();
+
     const handleLogout = () => {
         AuthenticationService.logout();
+        navigate('/');
         window.location.reload();
     }
     return(

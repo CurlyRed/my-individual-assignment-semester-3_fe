@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
 import '../../../css/components/CategoryList.css';
 import '../../../css/CategoryModal.css';
-import CategoryService from '../../../services/CategoryService';
 
-Modal.setAppElement('#root'); // This line is needed for accessibility reasons
+import React, { useState, useEffect } from 'react';
+import Modal from 'react-modal';
+
+import CategoryService from '../../../services/CategoryService.js';
+import ProductService from '../../../services/ProductService.js';
+
+Modal.setAppElement('#root'); 
 
 function CategoryManagement() {
+    const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [newCategoryName, setNewCategoryName] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isNewCategoryModalOpen, setIsNewCategoryModalOpen] = useState(false);
     const [categoryImage, setCategoryImage] = useState(null);
-    const [newAttributes, setNewAttributes] = useState([{ name: '', type: '' }]);
-    
-    useEffect(() => {
-        fetchCategories();
-    }, []);
+    const [newAttributes, setNewAttributes] = useState([{ name: ''}]);
 
     const fetchCategories = async () => {
         try {
@@ -27,7 +27,28 @@ function CategoryManagement() {
         }
     };
 
-    const addCategory = async () => {
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+
+    const fetchProductsByCategory = async (category) => {
+        try {
+            const categoryData = await ProductService.getProductsByCategory(category.id);
+            setProducts(categoryData);
+        } catch (error) {
+            console.error('Error fetching products per category: ', error);
+        }
+    }
+
+    useEffect(() => {
+        if (selectedCategory) {
+            fetchProductsByCategory(selectedCategory);
+        }
+    }, [selectedCategory]);
+
+    const addCategory = async (e) => {
+        e.preventDefault();
         try {
             if (newCategoryName.trim() === '') {
                 throw new Error('Category name cannot be empty');
@@ -42,10 +63,11 @@ function CategoryManagement() {
             };
     
             const newCategory = await CategoryService.createCategory(categoryRequest);
-            
             setCategories(prevCategories => [...prevCategories, newCategory]);
+            fetchCategories();
+            closeModal();
             setNewCategoryName('');
-            setNewAttributes([{ name: '', type: '' }]);
+            setNewAttributes([{ name: ''}]);
         } catch (error) {
             console.error('Error adding category:', error);
         }
@@ -68,10 +90,11 @@ function CategoryManagement() {
 
     const closeModal = () => {
         setSelectedCategory(null);
+        setProducts([]);
         setIsNewCategoryModalOpen(false);
         setNewCategoryName('');
         setCategoryImage(null);
-        setNewAttributes([{ name: '', type: '' }]);
+        setNewAttributes([{ name: ''}]);
     };
 
     const openNewCategoryModal = () => {
@@ -86,7 +109,7 @@ function CategoryManagement() {
     };
 
     const addAttributeField = () => {
-        setNewAttributes([...newAttributes, { name: '', type: '' }]);
+        setNewAttributes([...newAttributes, { name: ''}]);
     };
 
     const removeAttributeField = (index) => {
@@ -163,19 +186,31 @@ function CategoryManagement() {
                     className="modal-content"
                 >
                     <div className="category-image-placeholder"></div>
-                    <h2>{selectedCategory.name}</h2>
-                    <ul className='ul-modal'>
-                        {selectedCategory.attributes.map((attribute, index) => (
-                            <li className='li-modal' key={index}>
-                                <span className="attribute-name">{attribute.name}: </span>
-                                <span className="attribute-type">{attribute.type}</span>
-                            </li>
-                        ))}
-                    </ul>
-                    <div className='button-container'>
+                    <div className="modal-header">
+                        <h2>{selectedCategory.name}</h2>
+                        <h3>Products in category: {products ? products.length : 0}</h3>
+                    </div>
+                    <div className="modal-body">
+                        <div className="attributes-scroll-container">
+                            <ul className='ul-modal'>
+
+                                {selectedCategory.attributes.map((attribute, index) => (
+                                    <li className='li-modal' key={index}>
+                                        <span className="attribute-name">Attribute: {attribute.name} </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className='modal-footer'>
+                        {products.length > 0 && (
+                            <label>This category contains products and deleting it may cause irreversible consequences. Contact website maintainers to address this issue</label>
+                        )}
                         <button className="button-close" onClick={closeModal}>Close</button>
-                        <button className="button-delete" onClick={() => deleteCategory(selectedCategory.id)}>Delete</button>  
-                    </div>              
+                        {products.length === 0 && (
+                            <button className="button-delete" onClick={() => deleteCategory(selectedCategory.id)}>Delete</button>
+                        )}                    
+                    </div>             
                 </Modal>
             )}
         </div>

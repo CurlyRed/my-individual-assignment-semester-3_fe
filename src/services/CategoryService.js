@@ -21,12 +21,12 @@ const CategoryService = {
             categoryData,
           {
             headers: {
-              Authorization: `Bearer ${TokenManager.getToken()}`
+              Authorization: `Bearer ${TokenManager.getAccessToken()}`
             }
           });
       return response.data;
     } catch (error) {
-      throw new Error('Error creating category:', error);
+      throw new Error('Error creating category:' + error.message);
     }
   },
 
@@ -45,7 +45,7 @@ const CategoryService = {
         `${API_BASE_URL}/categories/${categoryId}`,
         {
           headers: {
-            Authorization: `Bearer ${TokenManager.getToken()}`
+            Authorization: `Bearer ${TokenManager.getAccessToken()}`
           }
         });
       return response.data;

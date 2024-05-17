@@ -44,7 +44,7 @@ const CategoryPage = () => {
                 {products.map(product => (
                   <Link 
                   key = {product.id}
-                  to={`/${location.state?.categoryName.toLowerCase()}/${product.name.replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()}`}
+                  to={`/${location.state?.categoryName.toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '')}/${product.name.replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '').toLowerCase()}`}
                   state = {{
                     productId : product.id
                   }}
