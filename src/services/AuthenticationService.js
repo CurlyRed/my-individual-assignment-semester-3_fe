@@ -7,7 +7,6 @@ const AuthenticationService = {
     login: async (userData) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/users/auth/login`, userData);
-            console.log(response)
             return response.data.accessToken;
         } catch (error) {
             if (error.response) {

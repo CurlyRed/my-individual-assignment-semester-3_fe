@@ -1,4 +1,5 @@
 import axios from 'axios';
+import TokenManager from './TokenManager';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -20,7 +21,13 @@ const UserService = {
 
   getUser: async (userId) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/users/${userId}`);
+      const response = await axios.get(`${API_BASE_URL}/users/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${TokenManager.getAccessToken()}`
+          }
+        }
+      );
       return response.data;
     } catch (error) {
       throw new Error('Error getting user:', error);

@@ -91,6 +91,7 @@ function AppRoutes({ isAuthorized, userRole }) {
         {/* Routing for general pages*/}
         <Route path ="/:category" element={<CategoryPage />} />
         <Route path="/:category/:product" element={<ProductDetails />} />
+        <Route path = "/topup" element={<WalletTopUp />} />
       </Route>
 
       <Route path="/login" element={<Login />} />
