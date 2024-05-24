@@ -14,6 +14,7 @@ import Delivery from '../pages/Users/User/Delivery.jsx';
 import Settings from '../pages/Users/User/Settings.jsx';
 import PostProduct from '../pages/general/PostProduct.jsx';
 import WalletTopUp from '../pages/Users/User/WalletTopUp.jsx';
+import PromoteProduct from '../pages/Users/User/PromoteProduct.jsx';
 
 {/* Imports for support role */}
 import Tickets from '../pages/Users/Support/Tickets.jsx';
@@ -92,6 +93,7 @@ function AppRoutes({ isAuthorized, userRole }) {
         <Route path ="/:category" element={<CategoryPage />} />
         <Route path="/:category/:product" element={<ProductDetails />} />
         <Route path = "/topup" element={<WalletTopUp />} />
+        <Route path="/promoteproduct" element={<PromoteProduct />} />
       </Route>
 
       <Route path="/login" element={<Login />} />

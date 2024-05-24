@@ -107,3 +107,7 @@
     position: relative;
     border-bottom: 2px solid transparent;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

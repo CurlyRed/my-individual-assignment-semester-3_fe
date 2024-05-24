@@ -25,7 +25,10 @@ function ProfileNavigation({ userRole }) {
             }
         }
         fetchUser();
-    }, []); 
+    }, []);
+
+    // Safely handle the user's balance
+    const balance = user?.balance?.balance ?? 0;
 
     return (
         <div className="block">
@@ -44,7 +47,7 @@ function ProfileNavigation({ userRole }) {
                                 <div className="info-buttons-3">
                                     <ul className="ul-info-style">
                                         <li className="li-text-style">
-                                            Your balance: {user ? `${user.balance?.balance}$` : 'Loading...'}
+                                            Your balance: {user ? `${balance}$` : 'Loading...'}
                                         </li>
                                     </ul>
                                     <Link to="/topup">
@@ -130,3 +133,4 @@ function ProfileNavigation({ userRole }) {
 }
 
 export default ProfileNavigation;
+

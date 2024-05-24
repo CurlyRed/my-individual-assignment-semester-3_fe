@@ -2,7 +2,6 @@ import React from 'react';
 import AdminNavigation from './headerNavigation/AdminNavigation';
 import SupportNavigation from './headerNavigation/SupportNavigation';
 import UserNavigation from './headerNavigation/UserNavigation';
-import '../css/components/Header.css';
 
 function Header({ userRole }) {
   let NavigationComponent;
@@ -19,8 +18,8 @@ function Header({ userRole }) {
   }
 
   return (
-    <header className="header">
-      <div className="header-container">
+    <header className="bg-[#ffa500] shadow-md">
+      <div className="container mx-auto p-4">
         <NavigationComponent />
       </div>
     </header>
@@ -28,6 +27,3 @@ function Header({ userRole }) {
 }
 
 export default Header;
-
-
-
