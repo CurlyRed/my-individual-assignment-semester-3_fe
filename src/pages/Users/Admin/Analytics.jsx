@@ -6,6 +6,7 @@ import WebsiteStatisticsService from '../../../services/WebsiteStatisticsService
 import StaticData from '../../../components/statistics/StaticData.jsx';
 import FloatingData from '../../../components/statistics/FloatingData.jsx';
 
+
 const Analytics = () => {
     const [activeTab, setActiveTab] = useState('users');
     const [staticData, setStaticData] = useState({});
@@ -24,8 +25,10 @@ const Analytics = () => {
                 if (activeTab === 'users') {
                     const totalUsers = await WebsiteStatisticsService.getTotalUsers();
                     const userDemographicByAge = await WebsiteStatisticsService.getUserDemographicsByAge();
+                    console.log(userDemographicByAge)
                     const userDemographicByGender = await WebsiteStatisticsService.getUserDemographicsByGender();
                     const userDemographicByLocation = await WebsiteStatisticsService.getUserDemographicsByLocation();
+                    console.log(userDemographicByLocation)
                     setStaticData({ totalUsers, userDemographicByAge, userDemographicByGender, userDemographicByLocation });
                 } else if (activeTab === 'products') {
                     const totalProducts = await WebsiteStatisticsService.getTotalProducts();
