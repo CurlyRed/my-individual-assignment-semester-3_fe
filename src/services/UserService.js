@@ -36,11 +36,26 @@ const UserService = {
 
   updateUser: async (userId, userData) => {
     try {
-      const response = await axios.put(`${API_BASE_URL}/users/${userId}`, userData);
+      console.log(userId, userData)
+      const response = await axios.put(
+        `${API_BASE_URL}/users/${userId}`, 
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${TokenManager.getAccessToken()}`
+          }
+        }
+      );
       return response.data;
     } catch (error) {
-      throw new Error('Error updating user:', error);
-    }
+      if (error.response) {
+          throw new Error(error.response.data.message || 'An error occurred during the promotion purchase process');
+      } else if (error.request) {
+          throw new Error('Server is not accessible');
+      } else {
+          throw new Error('Request error: ' + error.message);
+      }
+  }
   },
 
   deleteUser: async (userId) => {

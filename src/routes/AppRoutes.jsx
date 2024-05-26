@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 
 {/* General imports */}
 import DefaultLayout from '../layouts/DefaultLayout.jsx';
-import Home from '../pages/general/Home.jsx';
+import Home from '../pages/General/Home.jsx'
 
 {/* Imports for user role */}
 import Messages from '../pages/Users/User/Messages.jsx';
@@ -12,7 +12,7 @@ import Products from '../pages/Users/User/Products.jsx';
 import Payments from '../pages/Users/User/Payments.jsx';
 import Delivery from '../pages/Users/User/Delivery.jsx';
 import Settings from '../pages/Users/User/Settings.jsx';
-import PostProduct from '../pages/general/PostProduct.jsx';
+import PostProduct from '../pages/General/PostProduct.jsx';
 import WalletTopUp from '../pages/Users/User/WalletTopUp.jsx';
 import PromoteProduct from '../pages/Users/User/PromoteProduct.jsx';
 
@@ -29,10 +29,10 @@ import CategoryManagement from '../pages/Users/Admin/CategoryManagement.jsx';
 import AdminDashboard from '../pages/Users/Admin/AdminDashboard.jsx'; 
 
 {/* General */}
-import Login from '../pages/loginSignup/Login.jsx';
-import ForbiddenPage from '../pages/general/ForbiddenPage.jsx';
-import CategoryPage from '../pages/general/CategoryPage.jsx';
-import ProductDetails from '../pages/general/ProductDetails.jsx';
+import Login from '../pages/LoginSignup/Login.jsx';
+import ForbiddenPage from '../pages/General/ForbiddenPage.jsx';
+import CategoryPage from '../pages/General/CategoryPage.jsx';
+import ProductDetails from '../pages/General/ProductDetails.jsx';
 
 function AppRoutes({ isAuthorized, userRole }) {
   return (
