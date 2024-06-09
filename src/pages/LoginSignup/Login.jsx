@@ -144,9 +144,9 @@ function Login() {
                     <div className='tabs'>
                         <div className='tabs-style'>
                             <div className='tab-header-style'>
-                                <button className={isLogin ? 'tab-header-selected' : 'tab-header-notselected'}
+                                <button id="login-tab" className={isLogin ? 'tab-header-selected' : 'tab-header-notselected'}
                                     onClick={() => handleTabChange(true)}>Login</button>
-                                <button className={!isLogin ? 'tab-header-selected' : 'tab-header-notselected'}
+                                <button id="signup-tab" className={!isLogin ? 'tab-header-selected' : 'tab-header-notselected'}
                                     onClick={() => handleTabChange(false)}>Sign up</button>
                             </div>
                         </div>
@@ -158,6 +158,7 @@ function Login() {
                                 {emailError && <span className='text-red-500 ml-2'>✖</span>}
                             </label>
                             <input
+                                id="email"
                                 type='email'
                                 className='input-field'
                                 value={email}
@@ -170,6 +171,7 @@ function Login() {
                                 {passwordError && <span className='text-red-500 ml-2'>✖</span>}
                             </label>
                             <input
+                                id="password"
                                 type='password'
                                 className='input-field'
                                 value={password}
@@ -200,6 +202,7 @@ function Login() {
                                 <>
                                     <label>Confirm Password</label>
                                     <input
+                                        id="confirm-password"
                                         type='password'
                                         className='input-field'
                                         value={confirmPassword}
@@ -208,7 +211,7 @@ function Login() {
                                     />
                                 </>
                             )}
-                            <button className='submit-button' type='submit'>
+                            <button id="submit-button" className='submit-button' type='submit'>
                                 <span className='submit-button-style'>{isLogin ? 'Login' : 'Sign up'}</span>
                             </button>
                         </form>
@@ -221,4 +224,3 @@ function Login() {
 }
 
 export default Login;
-

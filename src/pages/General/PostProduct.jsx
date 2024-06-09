@@ -218,6 +218,7 @@ function PostProduct() {
                         <h4>Describe in details*</h4>
                         <label>Enter the name*</label>
                         <input
+                            id='product-name-input'
                             type='text'
                             placeholder='For example, Iphone 11 with warranty'
                             value={name}
@@ -233,7 +234,7 @@ function PostProduct() {
                             </span>
                         </div>
                         <label>Category*</label>
-                        <select onChange={handleCategoryChange}>
+                        <select id='category-select' onChange={handleCategoryChange}>
                             <option value=''>Select a category</option>
                             {categories.map((category) => (
                                 <option key={category.id} value={category.id}>
@@ -275,6 +276,7 @@ function PostProduct() {
                             <h3>Note, you will not be able to edit this value in the future!</h3>
                             <label>Enter the {attribute.name}*</label>
                             <input
+                                id={`attribute-input-${attribute.id}`}
                                 type='text'
                                 value={productAttributes[index] ? productAttributes[index].value : ''}
                                 onChange={(event) => handleProductAttributeChange(index, event)}
@@ -287,6 +289,7 @@ function PostProduct() {
                         <h4>Description</h4>
                         <label>Enter the description*</label>
                         <textarea
+                            id='description-input'
                             type='text'
                             placeholder='Think of what would you like to know from posting and add it to the description'
                             value={description}
@@ -308,6 +311,7 @@ function PostProduct() {
                         <h4>Price</h4>
                         <label>Enter the price of the product</label>
                         <input
+                            id='price-input'
                             type='number'
                             placeholder='For example, 100$'
                             value={price}
@@ -319,7 +323,7 @@ function PostProduct() {
                     <div className='content'>
                         <h4>Location</h4>
                         <label>Choose the district*</label>
-                        <select onChange={handleDistrictChange}>
+                        <select id='district-select' onChange={handleDistrictChange}>
                             <option value=''>Select a district</option>
                             {districts.map((district) => (
                                 <option key={district.id} value={district.id}>
@@ -328,7 +332,7 @@ function PostProduct() {
                             ))}
                         </select>
                         <label>Choose the city*</label>
-                        <select onChange={handleCityChange}>
+                        <select id='city-select' onChange={handleCityChange} disabled={cityDisabled}>
                             <option value='' disabled={cityDisabled}>
                                 Select a city
                             </option>
@@ -344,17 +348,17 @@ function PostProduct() {
                     <div className='content'>
                         <h4>Contact information</h4>
                         <label>Contact person*</label>
-                        <input type='text' value={contact_person} onChange={handleContactPersonChange} />
+                        <input id='contact-person-input' type='text' value={contact_person} onChange={handleContactPersonChange} />
                         <label>Email address</label>
-                        <input type='text' value={email} onChange={handleEmailChange} />
+                        <input id='email-input' type='text' value={email} onChange={handleEmailChange} />
                         <label>Phone number</label>
-                        <input type='text' value={phone_number} onChange={handlePhoneNumberChange} />
+                        <input id='phone-number-input' type='text' value={phone_number} onChange={handlePhoneNumberChange} />
                     </div>
                 </div>
                 <div className='content-block'>
                     <div className='content'>
                         <div className='button-group'>
-                            <button type='submit' className='button-post'>
+                            <button id='submit-button' type='submit' className='button-post'>
                                 Post Product
                             </button>
                         </div>

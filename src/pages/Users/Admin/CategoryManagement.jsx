@@ -163,7 +163,7 @@ function CategoryManagement() {
             <Toaster />
             <h1 className="text-3xl font-bold text-center">Category Management</h1>
             <div className="bg-gray-100 p-4 rounded-lg shadow-inner">
-                <button className="bg-amber-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-amber-500 hover:border-5 hover:border-amber-500" onClick={openModal}>Create New Category</button>
+                <button id="create-category-button" className="bg-amber-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-amber-500 hover:border-5 hover:border-amber-500" onClick={openModal}>Create New Category</button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {categories.map((category) => (
@@ -182,6 +182,7 @@ function CategoryManagement() {
                                 <div>
                                     <label className="block text-gray-700">Category Name:</label>
                                     <input
+                                        id="category-name-input"
                                         type="text"
                                         value={newCategoryName}
                                         onChange={(e) => setNewCategoryName(e.target.value)}
@@ -193,6 +194,7 @@ function CategoryManagement() {
                                 <div>
                                     <label className="block text-gray-700">Upload Image:</label>
                                     <input
+                                        id="category-image-input"
                                         type="file"
                                         accept="image/*"
                                         onChange={(e) => setCategoryImage(e.target.files[0])}
@@ -210,6 +212,7 @@ function CategoryManagement() {
                                         {newAttributes.map((attribute, index) => (
                                             <div key={index} className="flex items-center space-x-2 mb-2">
                                                 <input
+                                                    id={`attribute-name-input-${index}`}
                                                     type="text"
                                                     name="name"
                                                     value={attribute.name}
@@ -217,17 +220,17 @@ function CategoryManagement() {
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                     required
                                                 />
-                                                <button type="button" onClick={() => removeAttributeField(index)} className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-white hover:text-red-500 hover:border-5 hover:border-red-500">X</button>
+                                                <button id={`remove-attribute-button-${index}`} type="button" onClick={() => removeAttributeField(index)} className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-white hover:text-red-500 hover:border-5 hover:border-red-500">X</button>
                                                 {attributeErrors[index] && <p className="text-red-500 text-sm">{attributeErrors[index]}</p>}
                                             </div>
                                         ))}
                                     </div>
-                                    <button type="button" onClick={addAttributeField} className="bg-amber-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-amber-500 hover:border-5 hover:border-amber-500">Add Attribute</button>
+                                    <button id="add-attribute-button" type="button" onClick={addAttributeField} className="bg-amber-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-amber-500 hover:border-5 hover:border-amber-500">Add Attribute</button>
                                 </div>
                             </div>
                             <div className="flex justify-end space-x-2 mt-4">
-                                <button type="button" onClick={closeModal} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-red-500 hover:border-5 hover:border-red-500">Close</button>
-                                <button type="submit" className="bg-amber-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-amber-500 hover:border-5 hover:border-amber-500">Create</button>
+                                <button id="close-modal-button" type="button" onClick={closeModal} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-red-500 hover:border-5 hover:border-red-500">Close</button>
+                                <button id="create-category-submit-button" type="submit" className="bg-amber-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-amber-500 hover:border-5 hover:border-amber-500">Create</button>
                             </div>
                         </form>
                     </div>
@@ -265,8 +268,8 @@ function CategoryManagement() {
                     <div className="bg-white p-6 rounded-md shadow-md space-y-4 max-w-md w-full">
                         <h2 className="text-xl font-semibold">Are you sure you want to delete this category?</h2>
                         <div className="flex justify-end space-x-2 mt-4">
-                            <button type="button" onClick={closeDeleteModal} className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-gray-500 hover:border-5 hover:border-gray-500">No</button>
-                            <button type="button" onClick={deleteCategory} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-red-500 hover:border-5 hover:border-red-500">Yes</button>
+                            <button id="cancel-delete-button" type="button" onClick={closeDeleteModal} className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-gray-500 hover:border-5 hover:border-gray-500">No</button>
+                            <button id="confirm-delete-button" type="button" onClick={deleteCategory} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-white hover:text-red-500 hover:border-5 hover:border-red-500">Yes</button>
                         </div>
                     </div>
                 </div>
