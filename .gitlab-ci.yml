@@ -16,11 +16,11 @@ test:
     - name: cypress/base:14
   variables:
     VITE_API_URL: $VITE_API_URL
-    CI: true
+    CI: "true"
   script:
     - npm install
     - npm start &
-    - npx wait-on http://localhost:8080
+    - npx wait-on http://localhost:8080  
     - npm run cypress:run
   artifacts:
     when: always
