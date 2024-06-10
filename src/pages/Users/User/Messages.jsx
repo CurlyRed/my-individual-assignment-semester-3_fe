@@ -138,8 +138,10 @@ const Messages = () => {
                 senderId: userId,
                 content: message,
             };
+            WebSocketService.sendMessage('/app/message', newMessage); // Send message via WebSocket
+            setMessage('');
         } else if (initialState) {
-            newMessage = {
+            const messageRequest = {
                 chatId: null,
                 senderId: userId,
                 content: message,
@@ -147,30 +149,23 @@ const Messages = () => {
                 sellerId: initialState.sellerId,
                 productId: initialState.productId
             };
-        }
 
-        if (newMessage) {
-            console.log(newMessage);
-            WebSocketService.sendMessage(newMessage.chatId, newMessage);
-            setMessage('');
+            try {
+                // Create new chat and send the initial message via HTTP
+                const createdChat = await ChatService.createChat(messageRequest);
+                setChats((prevChats) => [...prevChats, createdChat]);
+                setSelectedChat(createdChat);
 
-            if (!selectedChat) {
-                // Fetch the updated list of chats and set the new chat as selected
-                try {
-                    const fetchedChats = await ChatService.getChats(userId);
-                    const nonDeletedChats = fetchedChats.filter(chat => !chat.deleted);
-                    const deletedChats = fetchedChats.filter(chat => chat.deleted);
-                    setChats(nonDeletedChats);
-                    setDeletedChats(deletedChats);
+                // Connect to WebSocket and send the initial message
+                WebSocketService.connect(createdChat.id, (receivedMessage) => {
+                    setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+                });
 
-                    // Find the newly created chat and set it as selected
-                    const newChat = nonDeletedChats.find(chat => chat.productId === initialState.productId && chat.sellerId === initialState.sellerId);
-                    if (newChat) {
-                        setSelectedChat(newChat);
-                    }
-                } catch (error) {
-                    console.error(error.message);
-                }
+                WebSocketService.sendMessage('/app/message', { ...messageRequest, chatId: createdChat.id });
+                setMessage('');
+            } catch (error) {
+                console.error('Error creating chat or sending message:', error);
+                toast.error('Failed to create chat or send message');
             }
         }
     };
@@ -331,3 +326,5 @@ const Messages = () => {
 };
 
 export default Messages;
+
+

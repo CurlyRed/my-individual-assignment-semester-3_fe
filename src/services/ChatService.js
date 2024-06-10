@@ -92,6 +92,29 @@ const ChatService = {
                 throw new Error('Request error: ' + error.message);
             }
         }
+    },
+
+    createChat: async (messageRequest) => {
+        try {
+            const response = await axios.post(
+                `${API_BASE_URL}/chats/create`,
+                messageRequest,
+                {
+                    headers: {
+                        Authorization: `Bearer ${TokenManager.getAccessToken()}`
+                    }
+                }
+            );
+            return response.data;
+        } catch (error) {
+            if (error.response) {
+                throw new Error(error.response.data.message || 'Error happened');
+            } else if (error.request) {
+                throw new Error('Server is not accessible');
+            } else {
+                throw new Error('Request error: ' + error.message);
+            }
+        }
     }
 };
 
