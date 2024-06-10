@@ -10,13 +10,13 @@ const UserService = {
       return response.data;
     } catch (error) {
       if (error.response) {
-        throw error;
+          throw error;
       } else if (error.request) {
           throw new Error('Server is not accessible');
       } else {
-          throw new Error('Request error');
+          throw new Error('Request error: ' + error.message);
       }
-    }
+  }
   },
 
   getUser: async (userId) => {

@@ -261,6 +261,16 @@ function ProductDetails() {
         navigate('/promoteproduct', { state: { productId: product.id } });
     };
 
+    const handleMessageButtonClick = () => {
+        navigate('/profile/messages', {
+            state: {
+                buyerId: TokenManager.getUserId(),
+                sellerId: user.id,
+                productId: product.id
+            }
+        });
+    }
+
     return (
         <div>
             <Toaster />
@@ -456,7 +466,7 @@ function ProductDetails() {
                                             {TokenManager.isAuthenticated() ? (
                                                 TokenManager.getUserId() !== user.id && (
                                                     <div className="buttons-phone-button-grid">
-                                                        <button className="button-message-user">Message</button>
+                                                        <button className="button-message-user" onClick={handleMessageButtonClick}>Message</button>
                                                         <button className="button-user-phone-not-clicked" onClick={handleButtonShowNumberClick}>
                                                             {phoneNumberPlaceholder}
                                                         </button>
@@ -509,7 +519,7 @@ function ProductDetails() {
                                     {TokenManager.isAuthenticated() ? (
                                         TokenManager.getUserId() !== user.id && (
                                             <div className="buttons-phone-button-grid">
-                                                <button className="button-message-user">Message</button>
+                                                <button className="button-message-user" onClick={handleMessageButtonClick}>Message</button>
                                                 <button className="button-user-phone-not-clicked" onClick={handleButtonShowNumberClick}>
                                                     {phoneNumberPlaceholder}
                                                 </button>

@@ -1,70 +1,103 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FaTrash, FaUndo, FaArrowRight } from 'react-icons/fa';
 import { Toaster, toast } from 'react-hot-toast';
-import { Stomp } from '@stomp/stompjs';
-import ChatService from '../../../services/ChatService.js';
-import TokenManager from '../../../services/TokenManager.js';
+import WebSocketService from '../../../services/WebSocketService';
+import ChatService from '../../../services/ChatService';
+import UserService from '../../../services/UserService';
+import ProductService from '../../../services/ProductService';
+import TokenManager from '../../../services/TokenManager';
 
-const SOCKET_URL = 'ws://localhost:8080/ws'; // Change protocol to ws:// for WebSocket
+const Messages = () => {
+    const location = useLocation();
+    const initialState = location.state;
 
-const Messages = ({ userId, username }) => {
     const [activeTab, setActiveTab] = useState('Buying');
     const [chats, setChats] = useState([]);
     const [deletedChats, setDeletedChats] = useState([]);
     const [selectedChat, setSelectedChat] = useState(null);
+    const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
     const [showDeletedChats, setShowDeletedChats] = useState(false);
-    const [stompClient, setStompClient] = useState(null);
+
+    const [seller, setSeller] = useState(null);
+    const [product, setProduct] = useState(null);
+    const [userId, setUserId] = useState(TokenManager.getUserId());
+
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
         const fetchChats = async () => {
             try {
-                const fetchedChats = await ChatService.getChats(TokenManager.getUserId());
-                setChats(fetchedChats);
+                const fetchedChats = await ChatService.getChats(userId);
+                const nonDeletedChats = fetchedChats.filter(chat => !chat.deleted);
+                const deletedChats = fetchedChats.filter(chat => chat.deleted);
+                setChats(nonDeletedChats);
+                setDeletedChats(deletedChats);
             } catch (error) {
-                toast.error(error.message);
+                console.error(error.message);
             }
         };
 
         fetchChats();
-    }, [activeTab]);
+    }, [activeTab, userId]);
 
     useEffect(() => {
-        const socket = new WebSocket(SOCKET_URL);
-        const client = Stomp.over(socket);
+        if (selectedChat) {
+            WebSocketService.connect(
+                selectedChat.id,
+                (receivedMessage) => {
+                    console.log('Received message:', receivedMessage); // Debugging log
+                    setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+                }
+            );
 
-        client.connect({}, () => {
-            client.subscribe('/user/topic/messages', (msg) => {
-                const receivedMessage = JSON.parse(msg.body);
-                setChats((prevChats) => {
-                    const updatedChats = [...prevChats];
-                    const chatIndex = updatedChats.findIndex(chat => chat.id === receivedMessage.chat.id);
-                    if (chatIndex !== -1) {
-                        updatedChats[chatIndex].messages.push(receivedMessage);
-                        updatedChats[chatIndex].lastMessage = receivedMessage.content;
-                    }
-                    return updatedChats;
-                });
-            });
+            return () => {
+                WebSocketService.disconnect();
+            };
+        }
+    }, [selectedChat]);
 
-            client.subscribe('/user/topic/chats', (msg) => {
-                const newChat = JSON.parse(msg.body);
-                setChats((prevChats) => [...prevChats, newChat]);
-            });
-        });
+    useEffect(() => {
+        if (initialState) {
+            const fetchSellerAndProduct = async () => {
+                try {
+                    const sellerData = await UserService.getUser(initialState.sellerId);
+                    const productData = await ProductService.getProduct(initialState.productId);
+                    setSeller(sellerData);
+                    setProduct(productData);
+                } catch (error) {
+                    toast.error('Failed to fetch seller or product information');
+                }
+            };
 
-        setStompClient(client);
+            fetchSellerAndProduct();
+        }
+    }, [initialState]);
 
-        return () => {
-            if (client) {
-                client.disconnect();
-            }
-        };
-    }, []);
+    useEffect(() => {
+        if (selectedChat) {
+            const fetchMessages = async () => {
+                try {
+                    const fetchedMessages = await ChatService.getMessages(selectedChat.id);
+                    setMessages(fetchedMessages);
+                } catch (error) {
+                    toast.error(error.message);
+                }
+            };
+
+            fetchMessages();
+        }
+    }, [selectedChat]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
         setSelectedChat(null);
+        setMessages([]);
     };
 
     const handleChatSelect = (chat) => {
@@ -75,10 +108,11 @@ const Messages = ({ userId, username }) => {
         try {
             await ChatService.deleteChat(chat.id);
             setChats(chats.filter(c => c.id !== chat.id));
-            setDeletedChats([...deletedChats, chat]);
+            setDeletedChats([...deletedChats, { ...chat, deleted: true }]);
             toast.success("Chat deleted! You can restore it from the bin.");
             if (selectedChat && selectedChat.id === chat.id) {
                 setSelectedChat(null);
+                setMessages([]);
             }
         } catch (error) {
             toast.error(error.message);
@@ -89,7 +123,7 @@ const Messages = ({ userId, username }) => {
         try {
             await ChatService.recoverChat(chat.id);
             setDeletedChats(deletedChats.filter(c => c.id !== chat.id));
-            setChats([...chats, chat]);
+            setChats([...chats, { ...chat, deleted: false }]);
             toast.success("Chat restored!");
         } catch (error) {
             toast.error(error.message);
@@ -97,15 +131,47 @@ const Messages = ({ userId, username }) => {
     };
 
     const handleSendMessage = async () => {
-        if (stompClient && selectedChat) {
-            const newMessage = {
-                chat: selectedChat,
-                sender: { id: userId, username: username },
+        let newMessage;
+        if (selectedChat) {
+            newMessage = {
+                chatId: selectedChat.id,
+                senderId: userId,
                 content: message,
-                timestamp: new Date()
             };
-            stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(newMessage));
+        } else if (initialState) {
+            newMessage = {
+                chatId: null,
+                senderId: userId,
+                content: message,
+                buyerId: initialState.buyerId,
+                sellerId: initialState.sellerId,
+                productId: initialState.productId
+            };
+        }
+
+        if (newMessage) {
+            console.log(newMessage);
+            WebSocketService.sendMessage(newMessage.chatId, newMessage);
             setMessage('');
+
+            if (!selectedChat) {
+                // Fetch the updated list of chats and set the new chat as selected
+                try {
+                    const fetchedChats = await ChatService.getChats(userId);
+                    const nonDeletedChats = fetchedChats.filter(chat => !chat.deleted);
+                    const deletedChats = fetchedChats.filter(chat => chat.deleted);
+                    setChats(nonDeletedChats);
+                    setDeletedChats(deletedChats);
+
+                    // Find the newly created chat and set it as selected
+                    const newChat = nonDeletedChats.find(chat => chat.productId === initialState.productId && chat.sellerId === initialState.sellerId);
+                    if (newChat) {
+                        setSelectedChat(newChat);
+                    }
+                } catch (error) {
+                    console.error(error.message);
+                }
+            }
         }
     };
 
@@ -117,6 +183,36 @@ const Messages = ({ userId, username }) => {
         if (e.target.id === 'modalBackdrop') {
             setShowDeletedChats(false);
         }
+    };
+
+    const getOpponentName = (chat) => {
+        return chat.buyer.id === userId ? chat.seller.userInformation.firstName : chat.buyer.userInformation.firstName;
+    };
+
+    const filteredChats = chats.filter(chat => {
+        return activeTab === 'Buying' ? chat.buyer.id === userId : chat.seller.id === userId;
+    });
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+
+        let daySuffix;
+        if (day === 1 || day === 21 || day === 31) {
+            daySuffix = 'st';
+        } else if (day === 2 || day === 22) {
+            daySuffix = 'nd';
+        } else if (day === 3 || day === 23) {
+            daySuffix = 'rd';
+        } else {
+            daySuffix = 'th';
+        }
+
+        return `${day}${daySuffix} ${month}, ${hours}:${minutes}`;
     };
 
     return (
@@ -138,15 +234,14 @@ const Messages = ({ userId, username }) => {
                 </div>
                 <div className="relative h-full">
                     <div className="w-full h-full overflow-y-auto">
-                        {chats.map((chat, index) => (
+                        {filteredChats.map((chat, index) => (
                             <div
                                 key={index}
                                 className="flex justify-between items-center p-4 hover:bg-gray-100 cursor-pointer border-b"
                                 onClick={() => handleChatSelect(chat)}
                             >
                                 <div>
-                                    <p className="font-bold">{chat.productName}</p>
-                                    <p className="text-sm text-gray-600">{chat.lastMessage}</p>
+                                    <p className="font-bold">{chat.product.name}</p>
                                 </div>
                                 <button
                                     className="ml-2 text-red-500 hover:text-red-700"
@@ -162,21 +257,29 @@ const Messages = ({ userId, username }) => {
                     </div>
                 </div>
             </div>
-            <div className="flex-grow bg-white p-4 rounded shadow-lg h-full ml-4">
-                {selectedChat ? (
+            <div className="flex-grow bg-white p-4 rounded shadow-lg h-full ml-4 flex flex-col">
+                {(selectedChat || initialState) && (
                     <>
                         <div className="border-b border-gray-200 p-4">
-                            <p className="font-bold text-xl">{selectedChat.productName}</p>
-                            <p className="text-sm text-gray-600">{selectedChat.productInfo}</p>
-                            <p className="text-sm text-gray-600">Chat with: {selectedChat.opponentName}</p>
+                            <p className="font-bold text-xl">{selectedChat ? selectedChat.product.name : product?.name}</p>
+                            <p className="text-sm text-gray-600">Chat with: {selectedChat ? getOpponentName(selectedChat) : seller?.userInformation.firstName}</p>
                         </div>
                         <div className="flex-grow p-4 overflow-y-auto">
-                            {selectedChat.messages.map((msg, index) => (
-                                <div key={index} className="mb-2">
-                                    <p className="font-bold">{msg.sender}</p>
-                                    <p>{msg.content}</p>
-                                </div>
-                            ))}
+                            {selectedChat ? (
+                                messages.map((msg, index) => (
+                                    <div
+                                        key={index}
+                                        className={`mb-2 p-2 rounded-lg ${msg.sender.id === userId ? 'bg-amber-100 text-right ml-auto' : 'bg-gray-100 text-left mr-auto'}`}
+                                    >
+                                        <p className="font-bold">{msg.sender.userInformation.firstName}</p>
+                                        <p>{msg.content}</p>
+                                        <p className="text-xs text-gray-500">{formatDate(msg.timeStamp)}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center text-gray-600">Start a conversation about this product</div>
+                            )}
+                            <div ref={messagesEndRef} />
                         </div>
                         <div className="border-t border-gray-200 p-4 flex relative">
                             <input
@@ -192,10 +295,6 @@ const Messages = ({ userId, username }) => {
                             />
                         </div>
                     </>
-                ) : (
-                    <div className="flex items-center justify-center h-full">
-                        Select a chat to start messaging
-                    </div>
                 )}
             </div>
             {showDeletedChats && (
@@ -216,7 +315,7 @@ const Messages = ({ userId, username }) => {
                                     onClick={() => handleRestoreChat(chat)}
                                 >
                                     <div>
-                                        <p className="font-bold">{chat.productName}</p>
+                                        <p className="font-bold">{chat.product.name}</p>
                                         <p className="text-sm text-gray-600">{chat.lastMessage}</p>
                                     </div>
                                     <FaUndo className="text-blue-500 hover:text-blue-700" />
