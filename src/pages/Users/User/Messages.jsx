@@ -47,7 +47,6 @@ const Messages = () => {
             WebSocketService.connect(
                 selectedChat.id,
                 (receivedMessage) => {
-                    console.log('Received message:', receivedMessage); // Debugging log
                     setMessages((prevMessages) => [...prevMessages, receivedMessage]);
                 }
             );
@@ -138,7 +137,7 @@ const Messages = () => {
                 senderId: userId,
                 content: message,
             };
-            WebSocketService.sendMessage('/app/message', newMessage); // Send message via WebSocket
+            WebSocketService.sendMessage('/app/message', newMessage); 
             setMessage('');
         } else if (initialState) {
             const messageRequest = {
@@ -151,12 +150,10 @@ const Messages = () => {
             };
 
             try {
-                // Create new chat and send the initial message via HTTP
                 const createdChat = await ChatService.createChat(messageRequest);
                 setChats((prevChats) => [...prevChats, createdChat]);
                 setSelectedChat(createdChat);
 
-                // Connect to WebSocket and send the initial message
                 WebSocketService.connect(createdChat.id, (receivedMessage) => {
                     setMessages((prevMessages) => [...prevMessages, receivedMessage]);
                 });
