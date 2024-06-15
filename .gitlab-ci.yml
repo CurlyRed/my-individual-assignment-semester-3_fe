@@ -12,20 +12,22 @@ build:
   script: 
     - npm install
     - npm run build
+  artifacts:
+    paths:
+      - dist/
 
 push:
   stage: push
   script:
     - |
-      if [[ "$CI_COMMIT_REF_NAME" != "$CI_DEFAULT_BRANCH" ]]; then
-        echo "Skipping Docker image build as the pipeline was not triggered from the main branch."
-      elif [[ "$CI_JOB_STATUS" != "success" ]]; then
-        echo "Skipping Docker image build as the build stage failed."
-      else
+      if [[ "$CI_COMMIT_REF_NAME" == "$CI_DEFAULT_BRANCH" ]]; then
         docker build -t $REGISTRY/frontend:$IMAGE_TAG .
         docker push $REGISTRY/frontend:$IMAGE_TAG
+      else
+        echo "Skipping Docker image build as the pipeline was not triggered from the main branch."
       fi
   only:
     - master
     - main
     - dev
+
