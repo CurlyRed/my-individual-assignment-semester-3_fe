@@ -1,7 +1,11 @@
 stages:
   - build
-  - test
-  - deploy
+  - push
+
+variables:
+  DOCKER_DRIVER: overlay2
+  REGISTRY: git.fhict.nl/I506400/my-individual-assignment-semester-3_fe
+  IMAGE_TAG: $CI_COMMIT_SHA
 
 build:
   stage: build
@@ -9,27 +13,8 @@ build:
     - npm install
     - npm run build
 
-test:
-  stage: test
-  image: cypress/base:14
-  services:
-    - name: cypress/base:14
-  variables:
-    VITE_API_URL: $VITE_API_URL
-    CI: "true"
-  script:
-    - npm install
-    - npm start &
-    - npx wait-on http://localhost:8080  
-    - npm run cypress:run
-  artifacts:
-    when: always
-    paths:
-      - cypress/screenshots
-      - cypress/videos
-
-deploy:
-  stage: deploy
+push:
+  stage: push
   script:
     - |
       if [[ "$CI_COMMIT_REF_NAME" != "$CI_DEFAULT_BRANCH" ]]; then
@@ -37,6 +22,10 @@ deploy:
       elif [[ "$CI_JOB_STATUS" != "success" ]]; then
         echo "Skipping Docker image build as the build stage failed."
       else
-        docker build -t ias3_fe .
-        docker run -d -p 8000:3000 ias3_container_fe ias3_fe
+        docker build -t $REGISTRY/frontend:$IMAGE_TAG .
+        docker push $REGISTRY/frontend:$IMAGE_TAG
       fi
+  only:
+    - master
+    - main
+    - dev
