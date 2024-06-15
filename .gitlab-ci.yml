@@ -4,7 +4,7 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  REGISTRY: git.fhict.nl/I506400/my-individual-assignment-semester-3_fe
+  REGISTRY: git.fhict.nl/i506400/my-individual-assignment-semester-3_fe
   IMAGE_TAG: $CI_COMMIT_SHA
 
 build:
@@ -21,8 +21,9 @@ push:
   script:
     - |
       if [[ "$CI_COMMIT_REF_NAME" == "$CI_DEFAULT_BRANCH" ]]; then
-        docker build -t $REGISTRY/frontend:$IMAGE_TAG .
-        docker push $REGISTRY/frontend:$IMAGE_TAG
+        lower_registry=$(echo $REGISTRY | tr '[:upper:]' '[:lower:]')
+        docker build -t $lower_registry/frontend:$IMAGE_TAG .
+        docker push $lower_registry/frontend:$IMAGE_TAG
       else
         echo "Skipping Docker image build as the pipeline was not triggered from the main branch."
       fi
@@ -30,4 +31,5 @@ push:
     - master
     - main
     - dev
+
 
