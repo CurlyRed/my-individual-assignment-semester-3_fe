@@ -1,45 +1,43 @@
 stages:
   - build
-  - push
-
-variables:
-  DOCKER_DRIVER: overlay2
-  CI_REGISTRY: registry.git.fhict.nl
-  CI_REGISTRY_IMAGE: registry.git.fhict.nl/i506400/my-individual-assignment-semester-3_fe
-  IMAGE_TAG: $CI_COMMIT_SHA
-
-before_script:
-  - echo "$CI_REGISTRY_USER"
-  - echo "$CI_REGISTRY_PASSWORD"
-  - echo "$CI_REGISTRY"
-  - echo "$CI_REGISTRY_IMAGE"
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  - test
+  - deploy
 
 build:
   stage: build
-  script:
+  script: 
     - npm install
     - npm run build
-  artifacts:
-    paths:
-      - dist/
 
-push:
-  stage: push
+test:
+  stage: test
+  image: cypress/base:14
+  services:
+    - name: cypress/base:14
+  variables:
+    VITE_API_URL: $VITE_API_URL
+    CI: "true"
+  script:
+    - npm install
+    - npm start &
+    - npx wait-on http://localhost:8080  
+    - npm run cypress:run
+  artifacts:
+    when: always
+    paths:
+      - cypress/screenshots
+      - cypress/videos
+
+deploy:
+  stage: deploy
   script:
     - |
-      if [[ "$CI_COMMIT_REF_NAME" == "$CI_DEFAULT_BRANCH" ]]; then
-        lower_registry=$(echo $CI_REGISTRY_IMAGE | tr '[:upper:]' '[:lower:]')
-        echo "Building Docker image..."
-        docker build -t $lower_registry/frontend:$IMAGE_TAG .
-        echo "Pushing Docker image to $lower_registry/frontend:$IMAGE_TAG..."
-        docker push $lower_registry/frontend:$IMAGE_TAG
-      else
+      if [[ "$CI_COMMIT_REF_NAME" != "$CI_DEFAULT_BRANCH" ]]; then
         echo "Skipping Docker image build as the pipeline was not triggered from the main branch."
+      elif [[ "$CI_JOB_STATUS" != "success" ]]; then
+        echo "Skipping Docker image build as the build stage failed."
+      else
+        docker build -t ias3_fe .
+        docker run -d -p 8000:3000 ias3_container_fe ias3_fe
       fi
-  only:
-    - master
-    - main
-    - dev
-
 
