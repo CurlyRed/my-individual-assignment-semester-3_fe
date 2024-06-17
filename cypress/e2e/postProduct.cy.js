@@ -11,7 +11,7 @@ describe('Post Product Functionality', () => {
       const token = resp.body.accessToken;
       window.localStorage.setItem('token', token);
       cy.log(`Login successful, token set: ${token}`);
-      
+
       // Mock TokenManager methods
       cy.window().then((win) => {
         win.TokenManager = {
@@ -72,4 +72,3 @@ describe('Post Product Functionality', () => {
     });
   });
 });
-

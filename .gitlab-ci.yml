@@ -38,6 +38,5 @@ deploy:
         echo "Skipping Docker image build as the build stage failed."
       else
         docker build -t ias3_fe .
-        docker run -d -p 8000:3000 ias3_container_fe ias3_fe
       fi
 
